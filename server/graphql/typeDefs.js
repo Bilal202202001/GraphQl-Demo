@@ -3,13 +3,21 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
 type Game {
+    _id: ID!
     title : String!
+    price: String!
+    developer: String!
+    version: String!
     platform: [String]!
     reviews: [Review!]
 }
 type Author {
+    _id: ID!
     name: String!
-    verified: Boolean!
+    verified: String!
+    email: String!
+    password: String!
+    token: String!
     reviews: [Review!]
 }
 type Review {
@@ -28,11 +36,16 @@ type Query {
 }
 input GameInput {
     title: String!,
+    price: String!,
+    developer: String!,
+    version: String!,
     platform: [String]!
 }
 input AuthorInput {
   name: String!,
-  verified: Boolean!
+  verified: String!
+  email: String!
+  password: String!
 }
 input ReviewInput {
     rating: Int!
@@ -40,10 +53,15 @@ input ReviewInput {
     author: ID!
     game: ID!
   }
+input LoginInput {
+    email: String!
+    password: String!
+}
 
 type Mutation {
     addGame(gameInput: GameInput) : Game
     addAuthor(authorInput: AuthorInput) : Author
+    loginUser(loginInput: LoginInput): Author!
     addReview(reviewInput: ReviewInput) : Review
 }
 

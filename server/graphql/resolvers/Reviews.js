@@ -3,9 +3,9 @@ const Review = require('../../models/Reviews')
 const Author = require('../../models/Author')
 
 // Mutation
-const addReview = async (_, { reviewInput: { rating, content,author,game } }) => {
+const addReview = async (_, { reviewInput: { rating,content,author,game } }) => {
     const newReview = new Review({
-        rating : rating,
+        rating : parseInt(rating),
         content : content,
         author : author,
         game : game,
@@ -43,7 +43,6 @@ module.exports = {
         author: async (parent) => {
             try {
                 const author = await Author.findOne({ _id: parent.author });
-                console.log(author);
                 return author;
             } catch (error) {
                 throw new ApolloError('Failed to fetch reviews for the Author', 'DATABASE_ERROR');

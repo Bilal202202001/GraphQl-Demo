@@ -9,6 +9,9 @@ const AuthorSchema = new Schema({
         type: Boolean,
         default: false
     },
+    email: {type : String , unique: true},
+    password: String,
+    token: String
     
 });
 

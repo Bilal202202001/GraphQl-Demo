@@ -3,9 +3,12 @@ const Game = require('../../models/Games')
 const Review = require('../../models/Reviews')
 
 // Mutation
-const addGame = async (_, { gameInput: { title, platform } }) => {
+const addGame = async (_, { gameInput: { title,price,developer,version, platform } }) => {
     const newGame = new Game({
         title: title,
+        price: price,
+        developer: developer,
+        version: version,
         platform: platform,
     });
     const res = await newGame.save();
