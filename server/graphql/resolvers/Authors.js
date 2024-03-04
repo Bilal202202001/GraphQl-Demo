@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const Author = require('../../models/Author')
 
 // Mutation
-const addAuthor = async (_, { authorInput: { name, verified, email, password } }) => {
+const addAuthor = async (_, { authorInput: { name, verified, email, password } },{req,res}) => {
 
     console.log(name, verified, email, password);
     const oldAuthor = await Author.findOne({ email });
@@ -25,14 +25,19 @@ const addAuthor = async (_, { authorInput: { name, verified, email, password } }
     const jwtToken = jwt.sign({
         author_id: newAuthor._id, email: newAuthor.email,name: newAuthor.name
     }, "UNSAFE_STRING", { expiresIn: "1h" });
-
+    res.cookie('token', jwtToken, {
+        maxAge: 3600000, 
+        httpOnly: true, 
+        secure: true, 
+        sameSite: 'none' 
+    });
     newAuthor.token = jwtToken;
 
-    const res = await newAuthor.save();
+    const result = await newAuthor.save();
 
     return {
-        id: res._id,
-        ...res._doc,
+        id: result._id,
+        ...result._doc,
     };
 };
 

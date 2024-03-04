@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { REGISTER_AUTHOR } from '../graphql/Mutations';
 import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterAuthorsForm() {
 
   const [notification, setNotification] = useState(false);
   const [notificationString, setNotificationString] = useState('');
   const [addAuthor, { error }] = useMutation(REGISTER_AUTHOR);
+  const Navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target)
@@ -21,6 +23,7 @@ export default function RegisterAuthorsForm() {
         setNotification(false);
       }, 10000);
       console.log(result);
+      Navigate('/');
     }).catch((error) => {
       setNotification(true);
       setNotificationString('AUTHOR NOT ADDED');

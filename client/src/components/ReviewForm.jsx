@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ADD_REVIEW } from '../graphql/Mutations';
@@ -6,23 +6,26 @@ import { useMutation } from '@apollo/client';
 function ReviewForm({ game }) {
     
     const [addReview, { error: addGameError }] = useMutation(ADD_REVIEW);
-    const handleReview = (event) => {
+    const [error, setError] = useState(null);
+    const handleReview = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target)
         let formEntries = Object.fromEntries(formData);
         formEntries.rating = parseInt(formEntries.rating);
         console.log('Review clicked for game:', formEntries);
         try {
-            addReview({ variables: { reviewInput: { ...formEntries } } })
+            await addReview({ variables: { reviewInput: { ...formEntries } } })
             event.target.reset();
             window.location.reload();
         }
         catch (err) {
-            console.log("ADD ERROR :", err);
+            console.log(err);
+            setError(err);
         }
     }
     return (
         <div className='w-full mt-2 px-2'>
+            {error && <p className='text-red-500 text-xs'>Login First</p>}
             <form onSubmit={handleReview}>
                 <input type="text"
                     name='game'

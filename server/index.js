@@ -23,12 +23,18 @@ const server = new ApolloServer({
 
 app.get('/user', (req, res) => {
     const token = extractTokenFromCookie(req.headers.cookie);
-    const sessionAuthor = getUserNameFromToken(token)
-    if (sessionAuthor) {
-        res.status(200).json({ sessionAuthor });
-    } else {
-        res.status(401).json({ message: 'User ID not found in cookies' });
+    if(token){
+        const sessionAuthor = getUserNameFromToken(token)
+        if (sessionAuthor) {
+            res.status(200).json({ sessionAuthor });
+        } else {
+            res.status(401).json({ message: 'User not found in cookies' });
+        }
     }
+    else {
+        res.status(401).json({ message: 'User not found in cookies' });
+    }
+   
 });
 
 
