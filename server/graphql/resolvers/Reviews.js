@@ -1,20 +1,23 @@
 const { ApolloError } = require('apollo-server-errors');
 const Review = require('../../models/Reviews')
 const Author = require('../../models/Author')
+const jwt = require('jsonwebtoken');
+const { extractTokenFromCookie, getUserIdFromToken } = require('../../cookieUtils');
 
 // Mutation
-const addReview = async (_, { reviewInput: { rating,content,author,game } }) => {
+const addReview = async (_, { reviewInput: { rating, content, game } },{req,res}) => {
+    const token = extractTokenFromCookie(req.headers.cookie);
+    const sessionAuthor = getUserIdFromToken(token)
     const newReview = new Review({
-        rating : parseInt(rating),
-        content : content,
-        author : author,
-        game : game,
+        rating: parseInt(rating),
+        content: content,
+        author: sessionAuthor,
+        game: game,
     });
-    console.log(newReview);
-    const res = await newReview.save();
+    const result = await newReview.save();
     return {
-        id: res._id,
-        ...res._doc,
+        id: result._id,
+        ...result._doc,
     };
 };
 
@@ -50,4 +53,3 @@ module.exports = {
         },
     },
 };
-

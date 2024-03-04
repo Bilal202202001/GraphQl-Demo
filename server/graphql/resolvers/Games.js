@@ -3,7 +3,7 @@ const Game = require('../../models/Games')
 const Review = require('../../models/Reviews')
 
 // Mutation
-const addGame = async (_, { gameInput: { title,price,developer,version, platform } }) => {
+const addGame = async (_, { gameInput: { title, price, developer, version, platform } }) => {
     const newGame = new Game({
         title: title,
         price: price,
@@ -19,7 +19,9 @@ const addGame = async (_, { gameInput: { title,price,developer,version, platform
 };
 
 //Query
-const getAllGames = async () => {
+
+
+const getAllGames = async (_, __, { req, res }) => {
     try {
         const games = await Game.find();
         return games;
@@ -51,3 +53,4 @@ module.exports = {
         },
     }
 };
+

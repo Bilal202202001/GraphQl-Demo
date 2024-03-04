@@ -28,10 +28,6 @@ function ReviewForm({ game }) {
                     name='game'
                     defaultValue={game._id}
                     className='w-full rounded-lg text-slate-950 font-medium mt-2 text-xs px-2 py-1 border border-gray-400' hidden />
-                <input type="text"
-                    name='author'
-                    placeholder='Author ID'
-                    className='w-full rounded-lg text-slate-950 font-medium mt-2 text-xs px-2 py-1 border border-gray-400' />
                 <input type="number"
                     max={5}
                     name='rating'

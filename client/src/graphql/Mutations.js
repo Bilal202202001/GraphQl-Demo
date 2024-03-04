@@ -30,6 +30,14 @@ mutation loginUser($loginInput : LoginInput){
   loginUser (loginInput : $loginInput){
     _id,
     name,
+    token
+  }
+}
+`
+export const LOGOUT_AUTHOR = gql`
+mutation logoutAuthor {
+  logoutUser {
+    name
   }
 }
 `

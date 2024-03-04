@@ -50,7 +50,7 @@ input AuthorInput {
 input ReviewInput {
     rating: Int!
     content: String!
-    author: ID!
+    author: ID
     game: ID!
   }
 input LoginInput {
@@ -62,6 +62,7 @@ type Mutation {
     addGame(gameInput: GameInput) : Game
     addAuthor(authorInput: AuthorInput) : Author
     loginUser(loginInput: LoginInput): Author!
+    logoutUser: Author
     addReview(reviewInput: ReviewInput) : Review
 }
 
